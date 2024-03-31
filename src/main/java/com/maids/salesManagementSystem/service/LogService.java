@@ -6,6 +6,8 @@ import com.maids.salesManagementSystem.repository.LogEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LogService {
 
@@ -34,6 +36,10 @@ public class LogService {
 
         // Save the LogEntry to the database
         logEntryRepository.save(logEntry);
+    }
+
+    public List<LogEntry> findActivitiesByEntity(String entity){
+        return logEntryRepository.findByEntityName(entity);
     }
 }
 

@@ -1,6 +1,7 @@
 package com.maids.salesManagementSystem.model;
 
 import com.maids.salesManagementSystem.entity.Client;
+import com.maids.salesManagementSystem.entity.LogEntry;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ import java.util.List;
 public class ClientReport {
     private int totalNumberOfClients;
     private List<ClientStatistic> topSpendingClients;
-//    private List<ClientActivity> clientActivities;
+    private List<LogEntry> clientActivities;
 }

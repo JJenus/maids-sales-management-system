@@ -29,6 +29,4 @@ public class SalesController {
     public Sale updateSale(@PathVariable Long id, @Valid @RequestBody SaleDTO sale) {
         return salesService.updateSale(id, sale);
     }
-
-    // Add more endpoints for sales operations
 }

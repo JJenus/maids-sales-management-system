@@ -113,6 +113,7 @@ public class ClientService {
         clientReport.setTotalNumberOfClients(clients.size());
 
         clientReport.setTopSpendingClients(findTopSpendingClients(clients));
+        clientReport.setClientActivities(logService.findActivitiesByEntity("Client"));
 
         return  clientReport;
     }
