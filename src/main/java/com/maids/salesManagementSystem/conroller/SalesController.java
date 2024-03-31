@@ -26,7 +26,7 @@ public class SalesController {
     }
 
     @PutMapping("/{id}")
-    public Sale updateSale(@PathVariable Long id, @Valid @RequestBody Sale sale) {
+    public Sale updateSale(@PathVariable Long id, @Valid @RequestBody SaleDTO sale) {
         return salesService.updateSale(id, sale);
     }
 

@@ -27,6 +27,7 @@ public class SaleDTO {
 
     @DecimalMin(value = "0.0")
     private double total;
+    private LocalDateTime creationDate;
 
     private List<Transaction> transactions;
 

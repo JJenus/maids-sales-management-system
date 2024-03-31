@@ -18,6 +18,9 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private LogService logService;
+
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -27,12 +30,34 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, Product product) {
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("Product not found with id: " + id);
+    public Product updateProduct(Long id, Product updatedProduct) {
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+
+        // Check for changes in the product data and log updates
+        if (!existingProduct.getName().equals(updatedProduct.getName())) {
+            logService.logUpdate(existingProduct, "Name", existingProduct.getName(), updatedProduct.getName());
+            existingProduct.setName(updatedProduct.getName());
         }
-        product.setId(id);
-        return productRepository.save(product);
+        if (!existingProduct.getDescription().equals(updatedProduct.getDescription())) {
+            logService.logUpdate(existingProduct, "Description", existingProduct.getDescription(), updatedProduct.getDescription());
+            existingProduct.setDescription(updatedProduct.getDescription());
+        }
+        if (!existingProduct.getCategory().equals(updatedProduct.getCategory())) {
+            logService.logUpdate(existingProduct, "Category", existingProduct.getCategory(), updatedProduct.getCategory());
+            existingProduct.setCategory(updatedProduct.getCategory());
+        }
+        if (existingProduct.getQuantity() != updatedProduct.getQuantity()) {
+            logService.logUpdate(existingProduct, "Quantity", String.valueOf(existingProduct.getQuantity()), String.valueOf(updatedProduct.getQuantity()));
+            existingProduct.setQuantity(updatedProduct.getQuantity());
+        }
+        if (existingProduct.getPrice() != updatedProduct.getPrice()) {
+            logService.logUpdate(existingProduct, "Price", String.valueOf(existingProduct.getPrice()), String.valueOf(updatedProduct.getPrice()));
+            existingProduct.setPrice(updatedProduct.getPrice());
+        }
+
+        // Save the updated product
+        return productRepository.save(existingProduct);
     }
 
     public void deleteProduct(Long id) {

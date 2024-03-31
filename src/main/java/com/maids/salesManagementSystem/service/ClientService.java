@@ -25,6 +25,8 @@ public class ClientService {
     private ClientRepository clientRepository;
     @Autowired
     private SalesRepository salesRepository;
+    @Autowired
+    private LogService logService;
 
     public List<Client> getAllClients() {
         return clientRepository.findAll();
@@ -40,17 +42,36 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public Client updateClient(Long id, Client client) {
+    ;
+
+    public Client updateClient(Long id, Client updatedClient) {
         Client existingClient = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with id: " + id));
-        if (!existingClient.getEmail().equals(client.getEmail()) && clientRepository.existsByEmail(client.getEmail())) {
-            throw new ClientAlreadyExistsException("Client with email already exists: " + client.getEmail());
+
+        // Check for changes in the client data and log updates
+        if (!existingClient.getName().equals(updatedClient.getName())) {
+            logService.logUpdate(existingClient, "Name", existingClient.getName(), updatedClient.getName());
+            existingClient.setName(updatedClient.getName());
         }
-        if (!existingClient.getMobile().equals(client.getMobile()) && clientRepository.existsByMobile(client.getMobile())) {
-            throw new ClientAlreadyExistsException("Client with mobile already exists: " + client.getMobile());
+        if (!existingClient.getLastName().equals(updatedClient.getLastName())) {
+            logService.logUpdate(existingClient, "Last Name", existingClient.getLastName(), updatedClient.getLastName());
+            existingClient.setLastName(updatedClient.getLastName());
         }
-        client.setId(id);
-        return clientRepository.save(client);
+        if (!existingClient.getMobile().equals(updatedClient.getMobile())) {
+            logService.logUpdate(existingClient, "Mobile", existingClient.getMobile(), updatedClient.getMobile());
+            existingClient.setMobile(updatedClient.getMobile());
+        }
+        if (!existingClient.getEmail().equals(updatedClient.getEmail())) {
+            logService.logUpdate(existingClient, "Email", existingClient.getEmail(), updatedClient.getEmail());
+            existingClient.setEmail(updatedClient.getEmail());
+        }
+        if (!existingClient.getAddress().equals(updatedClient.getAddress())) {
+            logService.logUpdate(existingClient, "Address", existingClient.getAddress(), updatedClient.getAddress());
+            existingClient.setAddress(updatedClient.getAddress());
+        }
+
+        // Save the updated client
+        return clientRepository.save(existingClient);
     }
 
     public void deleteClient(Long id) {
