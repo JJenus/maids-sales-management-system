@@ -1,4 +1,4 @@
-package com.maids.salesManagementSystem.entity;
+package com.maids.salesManagementSystem.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,13 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Objects;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Client {
+public class ClientDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,17 +40,4 @@ public class Client {
     @NotBlank
     @Length(max = 255)
     private String address;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return Objects.equals(id, client.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

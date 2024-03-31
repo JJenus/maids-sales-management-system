@@ -1,6 +1,7 @@
 package com.maids.salesManagementSystem.conroller;
 
 import com.maids.salesManagementSystem.entity.Sale;
+import com.maids.salesManagementSystem.model.SaleDTO;
 import com.maids.salesManagementSystem.service.SalesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class SalesController {
     }
 
     @PostMapping
-    public Sale createSale(@Valid @RequestBody Sale sale) {
+    public Sale createSale(@Valid @RequestBody SaleDTO sale) {
         return salesService.createSale(sale);
     }
 

@@ -1,29 +1,23 @@
-package com.maids.salesManagementSystem.entity;
+package com.maids.salesManagementSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maids.salesManagementSystem.entity.Product;
+import com.maids.salesManagementSystem.entity.Sale;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-public class Transaction {
+public class TransactionDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "sale_id", nullable = false)
-    @JsonIgnore
     private Sale sale;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     @NotNull
     private Product product;
 

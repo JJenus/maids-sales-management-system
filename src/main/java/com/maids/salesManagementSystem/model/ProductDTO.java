@@ -1,4 +1,4 @@
-package com.maids.salesManagementSystem.entity;
+package com.maids.salesManagementSystem.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -8,14 +8,13 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Product {
+public class ProductDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,18 +43,5 @@ public class Product {
     @PrePersist
     public void onInsert(){
         creationDate = LocalDateTime.now();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(id, product.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

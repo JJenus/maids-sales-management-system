@@ -1,13 +1,21 @@
 package com.maids.salesManagementSystem.service;
 
 import com.maids.salesManagementSystem.entity.Client;
+import com.maids.salesManagementSystem.entity.Sale;
+import com.maids.salesManagementSystem.entity.Transaction;
 import com.maids.salesManagementSystem.exception.ClientAlreadyExistsException;
 import com.maids.salesManagementSystem.exception.ClientNotFoundException;
+import com.maids.salesManagementSystem.model.ClientReport;
+import com.maids.salesManagementSystem.model.ClientStatistic;
 import com.maids.salesManagementSystem.repository.ClientRepository;
+import com.maids.salesManagementSystem.repository.SalesRepository;
+import com.maids.salesManagementSystem.repository.TransactionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // ClientService
@@ -15,6 +23,8 @@ import java.util.List;
 public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private SalesRepository salesRepository;
 
     public List<Client> getAllClients() {
         return clientRepository.findAll();
@@ -45,6 +55,45 @@ public class ClientService {
 
     public void deleteClient(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    public List<ClientStatistic> calculateClientStatistics(List<Client> clients) {
+        List<ClientStatistic> clientStatistics = new ArrayList<>();
+
+        for (Client client : clients) {
+            double totalSpent = calculateTotalSpent(client);
+            ClientStatistic statistic = new ClientStatistic(client, totalSpent);
+            clientStatistics.add(statistic);
+        }
+
+        return clientStatistics;
+    }
+
+    public List<ClientStatistic> findTopSpendingClients(List<Client> clients) {
+        List<ClientStatistic> clientStatistics = calculateClientStatistics(clients);
+        Collections.sort(clientStatistics);
+        return clientStatistics;
+    }
+
+    private double calculateTotalSpent(Client client) {
+        // Retrieve transactions for the client and calculate total spent
+        List<Sale> sales = salesRepository.findByClient(client);
+        double totalSpent = 0.0;
+        for (Sale sale : sales) {
+            totalSpent += sale.getTotal();
+        }
+        return totalSpent;
+    }
+
+    public ClientReport generateClientReport() {
+        ClientReport clientReport = new ClientReport();
+
+        List<Client> clients = clientRepository.findAll();
+        clientReport.setTotalNumberOfClients(clients.size());
+
+        clientReport.setTopSpendingClients(findTopSpendingClients(clients));
+
+        return  clientReport;
     }
 }
 
