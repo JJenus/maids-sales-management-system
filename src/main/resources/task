@@ -1,0 +1,50 @@
+Backend Quiz
+Challenge 1
+Write a Java program to solve this challenge. The program should find all unique triplets in the given
+array that sum up to the target sum.
+Input: array, expected sum
+Output: the array index of the two numbers whose sum equals the expected sum.
+Challenge 2
+The Quiz is about a simple sales management system, which should include product management,
+client management, sales operations management, reporting, and user authentication features.
+Note: The implementation of these APIs should be done using Spring Boot framework
+following best practices, including data validation, error handling, security measures, and efficient
+database operations.
+Required API’s
+Products Management
+1.
+2.
+3.
+4.
+Fetch products and view id, name, description, category, creation date,
+available quantity, and price.
+Create a new product with a name, description, category, initial quantity, and
+price.
+Update the existing product's name, description, category, quantity, and price.
+Delete a product from the inventory.
+Clients Management
+1. Fetch clients and view id, name, last name, mobile,
+email, and address.
+2. Create a new client with name, last name, mobile,
+email, and address.
+3. Update the existing client's name, last name,
+mobile, email, and address.
+4. Delete a client from the database.
+Sales
+1. Fetch all sales operations and view id, creation date, client, seller, and
+total.
+2. Create new sales with multiple transactions.
+3. Edit quantities and prices of the sale.
+Reporting1. Generate a sales report for a specific date range, including the total number of sales, total
+revenue, top-selling products, and top-performing sellers.
+2. Generate a client report showing the total number of clients, top-spending clients, client
+activity, and client location statistics.
+3. Generate a product report with inventory status, sales performance, and pricing analysis.
+Logging and Auditing
+1. Log important system activities, including user actions, product updates, client updates, sales
+operations, and reporting.
+2. Implement auditing mechanisms to track changes made to critical data, such as product price
+changes or client information updates.
+Required Files
+1- Class diagram file.
+2- Github link or project zip file.
